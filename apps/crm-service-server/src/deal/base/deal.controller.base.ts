@@ -29,11 +29,27 @@ export class DealControllerBase {
   @swagger.ApiCreatedResponse({ type: Deal })
   async createDeal(@common.Body() data: DealCreateInput): Promise<Deal> {
     return await this.service.createDeal({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -49,7 +65,15 @@ export class DealControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -66,7 +90,15 @@ export class DealControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -88,11 +120,27 @@ export class DealControllerBase {
     try {
       return await this.service.updateDeal({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
           productId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -118,7 +166,15 @@ export class DealControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
           productId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

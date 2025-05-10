@@ -20,6 +20,7 @@ import { DealFindUniqueArgs } from "./DealFindUniqueArgs";
 import { CreateDealArgs } from "./CreateDealArgs";
 import { UpdateDealArgs } from "./UpdateDealArgs";
 import { DeleteDealArgs } from "./DeleteDealArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { DealService } from "../deal.service";
 @graphql.Resolver(() => Deal)
 export class DealResolverBase {
@@ -52,7 +53,15 @@ export class DealResolverBase {
   async createDeal(@graphql.Args() args: CreateDealArgs): Promise<Deal> {
     return await this.service.createDeal({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -61,7 +70,15 @@ export class DealResolverBase {
     try {
       return await this.service.updateDeal({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -85,5 +102,18 @@ export class DealResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  async getTenant(@graphql.Parent() parent: Deal): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

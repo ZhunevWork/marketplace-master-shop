@@ -17,7 +17,10 @@ import { Lead } from "./Lead";
 import { LeadCountArgs } from "./LeadCountArgs";
 import { LeadFindManyArgs } from "./LeadFindManyArgs";
 import { LeadFindUniqueArgs } from "./LeadFindUniqueArgs";
+import { CreateLeadArgs } from "./CreateLeadArgs";
+import { UpdateLeadArgs } from "./UpdateLeadArgs";
 import { DeleteLeadArgs } from "./DeleteLeadArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { LeadService } from "../lead.service";
 @graphql.Resolver(() => Lead)
 export class LeadResolverBase {
@@ -47,6 +50,47 @@ export class LeadResolverBase {
   }
 
   @graphql.Mutation(() => Lead)
+  async createLead(@graphql.Args() args: CreateLeadArgs): Promise<Lead> {
+    return await this.service.createLead({
+      ...args,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => Lead)
+  async updateLead(@graphql.Args() args: UpdateLeadArgs): Promise<Lead | null> {
+    try {
+      return await this.service.updateLead({
+        ...args,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Lead)
   async deleteLead(@graphql.Args() args: DeleteLeadArgs): Promise<Lead | null> {
     try {
       return await this.service.deleteLead(args);
@@ -58,5 +102,18 @@ export class LeadResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  async getTenant(@graphql.Parent() parent: Lead): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

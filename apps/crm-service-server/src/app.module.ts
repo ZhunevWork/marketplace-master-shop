@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
 import { LeadModule } from "./lead/lead.module";
-import { DeliveryModule } from "./delivery/delivery.module";
 import { DealModule } from "./deal/deal.module";
+import { DeliveryModule } from "./delivery/delivery.module";
+import { TenantModule } from "./tenant/tenant.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -15,8 +16,9 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   controllers: [],
   imports: [
     LeadModule,
-    DeliveryModule,
     DealModule,
+    DeliveryModule,
+    TenantModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

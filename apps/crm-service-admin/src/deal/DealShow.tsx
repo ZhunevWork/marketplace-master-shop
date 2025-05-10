@@ -5,7 +5,9 @@ import {
   ShowProps,
   DateField,
   TextField,
+  ReferenceField,
 } from "react-admin";
+import { TENANT_TITLE_FIELD } from "../tenant/TenantTitle";
 
 export const DealShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -13,7 +15,11 @@ export const DealShow = (props: ShowProps): React.ReactElement => {
       <SimpleShowLayout>
         <DateField source="createdAt" label="Created At" />
         <TextField label="ID" source="id" />
+        <TextField label="ownerId" source="ownerId" />
         <TextField label="productId" source="productId" />
+        <ReferenceField label="Tenant" source="tenant.id" reference="Tenant">
+          <TextField source={TENANT_TITLE_FIELD} />
+        </ReferenceField>
         <DateField source="updatedAt" label="Updated At" />
       </SimpleShowLayout>
     </Show>

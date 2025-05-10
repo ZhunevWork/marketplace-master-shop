@@ -10,6 +10,19 @@ generator client {
 model Lead {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Deal {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  productId String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
   updatedAt DateTime @updatedAt
 }
 
@@ -19,9 +32,10 @@ model Delivery {
   updatedAt DateTime @updatedAt
 }
 
-model Deal {
+model Tenant {
   createdAt DateTime @default(now())
+  deals     Deal[]
   id        String   @id @default(cuid())
-  productId String?
+  leads     Lead[]
   updatedAt DateTime @updatedAt
 }

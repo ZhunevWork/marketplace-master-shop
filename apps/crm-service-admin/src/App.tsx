@@ -9,14 +9,18 @@ import { LeadList } from "./lead/LeadList";
 import { LeadCreate } from "./lead/LeadCreate";
 import { LeadEdit } from "./lead/LeadEdit";
 import { LeadShow } from "./lead/LeadShow";
-import { DeliveryList } from "./delivery/DeliveryList";
-import { DeliveryCreate } from "./delivery/DeliveryCreate";
-import { DeliveryEdit } from "./delivery/DeliveryEdit";
-import { DeliveryShow } from "./delivery/DeliveryShow";
 import { DealList } from "./deal/DealList";
 import { DealCreate } from "./deal/DealCreate";
 import { DealEdit } from "./deal/DealEdit";
 import { DealShow } from "./deal/DealShow";
+import { DeliveryList } from "./delivery/DeliveryList";
+import { DeliveryCreate } from "./delivery/DeliveryCreate";
+import { DeliveryEdit } from "./delivery/DeliveryEdit";
+import { DeliveryShow } from "./delivery/DeliveryShow";
+import { TenantList } from "./tenant/TenantList";
+import { TenantCreate } from "./tenant/TenantCreate";
+import { TenantEdit } from "./tenant/TenantEdit";
+import { TenantShow } from "./tenant/TenantShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -38,6 +42,13 @@ const App = (): React.ReactElement => {
           show={LeadShow}
         />
         <Resource
+          name="Deal"
+          list={DealList}
+          edit={DealEdit}
+          create={DealCreate}
+          show={DealShow}
+        />
+        <Resource
           name="Delivery"
           list={DeliveryList}
           edit={DeliveryEdit}
@@ -45,11 +56,11 @@ const App = (): React.ReactElement => {
           show={DeliveryShow}
         />
         <Resource
-          name="Deal"
-          list={DealList}
-          edit={DealEdit}
-          create={DealCreate}
-          show={DealShow}
+          name="Tenant"
+          list={TenantList}
+          edit={TenantEdit}
+          create={TenantCreate}
+          show={TenantShow}
         />
       </Admin>
     </div>

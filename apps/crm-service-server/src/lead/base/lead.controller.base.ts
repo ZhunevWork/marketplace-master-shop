@@ -29,10 +29,26 @@ export class LeadControllerBase {
   @swagger.ApiCreatedResponse({ type: Lead })
   async createLead(@common.Body() data: LeadCreateInput): Promise<Lead> {
     return await this.service.createLead({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -48,6 +64,14 @@ export class LeadControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -64,6 +88,14 @@ export class LeadControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -85,10 +117,26 @@ export class LeadControllerBase {
     try {
       return await this.service.updateLead({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -114,6 +162,14 @@ export class LeadControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

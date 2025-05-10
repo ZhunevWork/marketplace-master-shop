@@ -11,8 +11,15 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, MaxLength, IsOptional } from "class-validator";
+import {
+  IsDate,
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { Tenant } from "../../tenant/base/Tenant";
 
 @ObjectType()
 class Deal {
@@ -42,7 +49,28 @@ class Deal {
   @Field(() => String, {
     nullable: true,
   })
+  ownerId!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
   productId!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => Tenant,
+  })
+  @ValidateNested()
+  @Type(() => Tenant)
+  @IsOptional()
+  tenant?: Tenant | null;
 
   @ApiProperty({
     required: true,
