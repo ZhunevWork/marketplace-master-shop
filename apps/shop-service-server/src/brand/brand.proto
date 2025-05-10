@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+                 package brand;
+service BrandService {
+ rpc createBrand (BrandCreateInput) returns (Brand) {}
+rpc brands (findManyParams) returns (stream Brand) {}
+rpc brand (BrandWhereUniqueInput) returns (Brand) {}
+rpc updateBrand (BrandUpdateInput) returns (Brand) {}
+rpc deleteBrand (BrandWhereUniqueInput) returns (Brand) {} 
+ }
+message BrandCreateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message Brand {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message BrandWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message BrandUpdateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message findManyParams {
+
+};

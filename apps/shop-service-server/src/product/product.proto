@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+                 package product;
+service ProductService {
+ rpc createProduct (ProductCreateInput) returns (Product) {}
+rpc products (findManyParams) returns (stream Product) {}
+rpc product (ProductWhereUniqueInput) returns (Product) {}
+rpc updateProduct (ProductUpdateInput) returns (Product) {}
+rpc deleteProduct (ProductWhereUniqueInput) returns (Product) {} 
+ }
+message ProductCreateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message Product {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message ProductWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message ProductUpdateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message findManyParams {
+
+};
