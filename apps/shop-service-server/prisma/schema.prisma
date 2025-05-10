@@ -7,21 +7,30 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Product {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
-}
-
 model Category {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
   updatedAt DateTime @updatedAt
 }
 
 model Brand {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
   updatedAt DateTime @updatedAt
 }
 
@@ -35,4 +44,13 @@ model User {
   roles     Json
   updatedAt DateTime @updatedAt
   username  String   @unique
+}
+
+model Tenant {
+  brands     Brand[]
+  categories Category[]
+  createdAt  DateTime   @default(now())
+  id         String     @id @default(cuid())
+  products   Product[]
+  updatedAt  DateTime   @updatedAt
 }

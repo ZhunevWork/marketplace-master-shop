@@ -52,10 +52,26 @@ export class ProductControllerBase {
     @common.Body() data: ProductCreateInput
   ): Promise<Product> {
     return await this.service.createProduct({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -80,6 +96,14 @@ export class ProductControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -105,6 +129,14 @@ export class ProductControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -138,10 +170,26 @@ export class ProductControllerBase {
     try {
       return await this.service.updateProduct({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -175,6 +223,14 @@ export class ProductControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

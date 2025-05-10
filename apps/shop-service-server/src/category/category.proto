@@ -11,22 +11,26 @@ rpc deleteCategory (CategoryWhereUniqueInput) returns (Category) {}
 message CategoryCreateInput {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message Category {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message CategoryWhereUniqueInput {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message CategoryUpdateInput {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message findManyParams {
 

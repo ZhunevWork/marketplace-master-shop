@@ -50,10 +50,26 @@ export class BrandControllerBase {
   })
   async createBrand(@common.Body() data: BrandCreateInput): Promise<Brand> {
     return await this.service.createBrand({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -78,6 +94,14 @@ export class BrandControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -103,6 +127,14 @@ export class BrandControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -136,10 +168,26 @@ export class BrandControllerBase {
     try {
       return await this.service.updateBrand({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -173,6 +221,14 @@ export class BrandControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

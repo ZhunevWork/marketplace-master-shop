@@ -18,11 +18,15 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Brand } from "./Brand";
 import { BrandCountArgs } from "./BrandCountArgs";
 import { BrandFindManyArgs } from "./BrandFindManyArgs";
 import { BrandFindUniqueArgs } from "./BrandFindUniqueArgs";
+import { CreateBrandArgs } from "./CreateBrandArgs";
+import { UpdateBrandArgs } from "./UpdateBrandArgs";
 import { DeleteBrandArgs } from "./DeleteBrandArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { BrandService } from "../brand.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Brand)
@@ -75,6 +79,61 @@ export class BrandResolverBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Brand)
+  @nestAccessControl.UseRoles({
+    resource: "Brand",
+    action: "create",
+    possession: "any",
+  })
+  async createBrand(@graphql.Args() args: CreateBrandArgs): Promise<Brand> {
+    return await this.service.createBrand({
+      ...args,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Brand)
+  @nestAccessControl.UseRoles({
+    resource: "Brand",
+    action: "update",
+    possession: "any",
+  })
+  async updateBrand(
+    @graphql.Args() args: UpdateBrandArgs
+  ): Promise<Brand | null> {
+    try {
+      return await this.service.updateBrand({
+        ...args,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
   @graphql.Mutation(() => Brand)
   @nestAccessControl.UseRoles({
     resource: "Brand",
@@ -94,5 +153,24 @@ export class BrandResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Tenant",
+    action: "read",
+    possession: "any",
+  })
+  async getTenant(@graphql.Parent() parent: Brand): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

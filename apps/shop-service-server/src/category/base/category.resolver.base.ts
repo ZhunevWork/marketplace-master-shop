@@ -18,11 +18,15 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Category } from "./Category";
 import { CategoryCountArgs } from "./CategoryCountArgs";
 import { CategoryFindManyArgs } from "./CategoryFindManyArgs";
 import { CategoryFindUniqueArgs } from "./CategoryFindUniqueArgs";
+import { CreateCategoryArgs } from "./CreateCategoryArgs";
+import { UpdateCategoryArgs } from "./UpdateCategoryArgs";
 import { DeleteCategoryArgs } from "./DeleteCategoryArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { CategoryService } from "../category.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Category)
@@ -77,6 +81,63 @@ export class CategoryResolverBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Category)
+  @nestAccessControl.UseRoles({
+    resource: "Category",
+    action: "create",
+    possession: "any",
+  })
+  async createCategory(
+    @graphql.Args() args: CreateCategoryArgs
+  ): Promise<Category> {
+    return await this.service.createCategory({
+      ...args,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Category)
+  @nestAccessControl.UseRoles({
+    resource: "Category",
+    action: "update",
+    possession: "any",
+  })
+  async updateCategory(
+    @graphql.Args() args: UpdateCategoryArgs
+  ): Promise<Category | null> {
+    try {
+      return await this.service.updateCategory({
+        ...args,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
   @graphql.Mutation(() => Category)
   @nestAccessControl.UseRoles({
     resource: "Category",
@@ -96,5 +157,24 @@ export class CategoryResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Tenant",
+    action: "read",
+    possession: "any",
+  })
+  async getTenant(@graphql.Parent() parent: Category): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

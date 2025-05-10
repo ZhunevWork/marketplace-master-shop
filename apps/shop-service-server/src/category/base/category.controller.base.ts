@@ -52,10 +52,26 @@ export class CategoryControllerBase {
     @common.Body() data: CategoryCreateInput
   ): Promise<Category> {
     return await this.service.createCategory({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -80,6 +96,14 @@ export class CategoryControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -105,6 +129,14 @@ export class CategoryControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -138,10 +170,26 @@ export class CategoryControllerBase {
     try {
       return await this.service.updateCategory({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -175,6 +223,14 @@ export class CategoryControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

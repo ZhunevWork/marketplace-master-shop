@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+                 package tenant;
+service TenantService {
+ rpc createTenant (TenantCreateInput) returns (Tenant) {}
+rpc tenants (findManyParams) returns (stream Tenant) {}
+rpc tenant (TenantWhereUniqueInput) returns (Tenant) {}
+rpc updateTenant (TenantUpdateInput) returns (Tenant) {}
+rpc deleteTenant (TenantWhereUniqueInput) returns (Tenant) {}
+rpc findManyTenant (TenantWhereUniqueInput) returns (stream Brand) {}
+rpc updateTenant (BrandParams) returns (stream Brand) {}
+rpc connectTenant (BrandParams) returns (Brand) {}
+rpc disconnectTenant (BrandParams) returns (Brand) {}
+rpc findManyTenant (TenantWhereUniqueInput) returns (stream Category) {}
+rpc updateTenant (CategoryParams) returns (stream Category) {}
+rpc connectTenant (CategoryParams) returns (Category) {}
+rpc disconnectTenant (CategoryParams) returns (Category) {}
+rpc findManyTenant (TenantWhereUniqueInput) returns (stream Product) {}
+rpc updateTenant (ProductParams) returns (stream Product) {}
+rpc connectTenant (ProductParams) returns (Product) {}
+rpc disconnectTenant (ProductParams) returns (Product) {} 
+ }
+message TenantCreateInput {
+repeated Brand brands = 1;
+repeated Category categories = 2;
+string createdAt = 3;
+string id = 4;
+repeated Product products = 5;
+string updatedAt = 6;
+};
+message Tenant {
+repeated Brand brands = 1;
+repeated Category categories = 2;
+string createdAt = 3;
+string id = 4;
+repeated Product products = 5;
+string updatedAt = 6;
+};
+message TenantWhereUniqueInput {
+repeated Brand brands = 1;
+repeated Category categories = 2;
+string createdAt = 3;
+string id = 4;
+repeated Product products = 5;
+string updatedAt = 6;
+};
+message TenantUpdateInput {
+repeated Brand brands = 1;
+repeated Category categories = 2;
+string createdAt = 3;
+string id = 4;
+repeated Product products = 5;
+string updatedAt = 6;
+};
+message findManyParams {
+
+};
+message Brand {
+string createdAt = 1;
+string id = 2;
+string ownerId = 3;
+string updatedAt = 4;
+};
+message BrandWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string ownerId = 3;
+string updatedAt = 4;
+};
+message BrandParams {
+TenantWhereUniqueInput tenantWhereUniqueInput = 1;
+BrandWhereUniqueInput brandWhereUniqueInput = 2;
+};
+message Category {
+string createdAt = 1;
+string id = 2;
+string ownerId = 3;
+string updatedAt = 4;
+};
+message CategoryWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string ownerId = 3;
+string updatedAt = 4;
+};
+message CategoryParams {
+TenantWhereUniqueInput tenantWhereUniqueInput = 1;
+CategoryWhereUniqueInput categoryWhereUniqueInput = 2;
+};
+message Product {
+string createdAt = 1;
+string id = 2;
+string ownerId = 3;
+string updatedAt = 4;
+};
+message ProductWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string ownerId = 3;
+string updatedAt = 4;
+};
+message ProductParams {
+TenantWhereUniqueInput tenantWhereUniqueInput = 1;
+ProductWhereUniqueInput productWhereUniqueInput = 2;
+};

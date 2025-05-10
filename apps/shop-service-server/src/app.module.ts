@@ -12,10 +12,11 @@ import {
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
-import { ProductModule } from "./product/product.module";
 import { CategoryModule } from "./category/category.module";
+import { ProductModule } from "./product/product.module";
 import { BrandModule } from "./brand/brand.module";
 import { UserModule } from "./user/user.module";
+import { TenantModule } from "./tenant/tenant.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -40,10 +41,11 @@ import { LoggerModule } from "./logger/logger.module";
     ACLModule,
     AuthModule,
     NatsModule,
-    ProductModule,
     CategoryModule,
+    ProductModule,
     BrandModule,
     UserModule,
+    TenantModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

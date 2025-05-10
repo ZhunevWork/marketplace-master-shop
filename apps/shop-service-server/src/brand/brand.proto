@@ -11,22 +11,26 @@ rpc deleteBrand (BrandWhereUniqueInput) returns (Brand) {}
 message BrandCreateInput {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message Brand {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message BrandWhereUniqueInput {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message BrandUpdateInput {
 string createdAt = 1;
 string id = 2;
-string updatedAt = 3;
+string ownerId = 3;
+string updatedAt = 4;
 };
 message findManyParams {
 
