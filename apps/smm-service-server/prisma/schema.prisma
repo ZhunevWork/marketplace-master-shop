@@ -19,16 +19,19 @@ model Video {
   updatedAt DateTime @updatedAt
 }
 
-model SocialNetwork {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
-}
-
 model Content {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
+  ownerId   String?
   productId String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model SocialNetwork {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
   updatedAt DateTime @updatedAt
 }
 
@@ -42,4 +45,11 @@ model PublicationSchedule {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
   updatedAt DateTime @updatedAt
+}
+
+model Tenant {
+  contents  Content[]
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  updatedAt DateTime  @updatedAt
 }

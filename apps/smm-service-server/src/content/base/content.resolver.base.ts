@@ -20,6 +20,7 @@ import { ContentFindUniqueArgs } from "./ContentFindUniqueArgs";
 import { CreateContentArgs } from "./CreateContentArgs";
 import { UpdateContentArgs } from "./UpdateContentArgs";
 import { DeleteContentArgs } from "./DeleteContentArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { ContentService } from "../content.service";
 @graphql.Resolver(() => Content)
 export class ContentResolverBase {
@@ -58,7 +59,15 @@ export class ContentResolverBase {
   ): Promise<Content> {
     return await this.service.createContent({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -69,7 +78,15 @@ export class ContentResolverBase {
     try {
       return await this.service.updateContent({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -95,5 +112,18 @@ export class ContentResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  async getTenant(@graphql.Parent() parent: Content): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

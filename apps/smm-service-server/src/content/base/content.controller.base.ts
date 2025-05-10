@@ -31,11 +31,27 @@ export class ContentControllerBase {
     @common.Body() data: ContentCreateInput
   ): Promise<Content> {
     return await this.service.createContent({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -51,7 +67,15 @@ export class ContentControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -68,7 +92,15 @@ export class ContentControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -90,11 +122,27 @@ export class ContentControllerBase {
     try {
       return await this.service.updateContent({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
           productId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -120,7 +168,15 @@ export class ContentControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
           productId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

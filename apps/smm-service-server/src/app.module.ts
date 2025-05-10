@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common";
 import { PictureModule } from "./picture/picture.module";
 import { VideoModule } from "./video/video.module";
-import { SocialNetworkModule } from "./socialNetwork/socialNetwork.module";
 import { ContentModule } from "./content/content.module";
+import { SocialNetworkModule } from "./socialNetwork/socialNetwork.module";
 import { DescriptionModule } from "./description/description.module";
 import { PublicationScheduleModule } from "./publicationSchedule/publicationSchedule.module";
+import { TenantModule } from "./tenant/tenant.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -19,10 +20,11 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   imports: [
     PictureModule,
     VideoModule,
-    SocialNetworkModule,
     ContentModule,
+    SocialNetworkModule,
     DescriptionModule,
     PublicationScheduleModule,
+    TenantModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

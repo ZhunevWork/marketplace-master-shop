@@ -13,14 +13,14 @@ import { VideoList } from "./video/VideoList";
 import { VideoCreate } from "./video/VideoCreate";
 import { VideoEdit } from "./video/VideoEdit";
 import { VideoShow } from "./video/VideoShow";
-import { SocialNetworkList } from "./socialNetwork/SocialNetworkList";
-import { SocialNetworkCreate } from "./socialNetwork/SocialNetworkCreate";
-import { SocialNetworkEdit } from "./socialNetwork/SocialNetworkEdit";
-import { SocialNetworkShow } from "./socialNetwork/SocialNetworkShow";
 import { ContentList } from "./content/ContentList";
 import { ContentCreate } from "./content/ContentCreate";
 import { ContentEdit } from "./content/ContentEdit";
 import { ContentShow } from "./content/ContentShow";
+import { SocialNetworkList } from "./socialNetwork/SocialNetworkList";
+import { SocialNetworkCreate } from "./socialNetwork/SocialNetworkCreate";
+import { SocialNetworkEdit } from "./socialNetwork/SocialNetworkEdit";
+import { SocialNetworkShow } from "./socialNetwork/SocialNetworkShow";
 import { DescriptionList } from "./description/DescriptionList";
 import { DescriptionCreate } from "./description/DescriptionCreate";
 import { DescriptionEdit } from "./description/DescriptionEdit";
@@ -29,6 +29,10 @@ import { PublicationScheduleList } from "./publicationSchedule/PublicationSchedu
 import { PublicationScheduleCreate } from "./publicationSchedule/PublicationScheduleCreate";
 import { PublicationScheduleEdit } from "./publicationSchedule/PublicationScheduleEdit";
 import { PublicationScheduleShow } from "./publicationSchedule/PublicationScheduleShow";
+import { TenantList } from "./tenant/TenantList";
+import { TenantCreate } from "./tenant/TenantCreate";
+import { TenantEdit } from "./tenant/TenantEdit";
+import { TenantShow } from "./tenant/TenantShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -57,18 +61,18 @@ const App = (): React.ReactElement => {
           show={VideoShow}
         />
         <Resource
-          name="SocialNetwork"
-          list={SocialNetworkList}
-          edit={SocialNetworkEdit}
-          create={SocialNetworkCreate}
-          show={SocialNetworkShow}
-        />
-        <Resource
           name="Content"
           list={ContentList}
           edit={ContentEdit}
           create={ContentCreate}
           show={ContentShow}
+        />
+        <Resource
+          name="SocialNetwork"
+          list={SocialNetworkList}
+          edit={SocialNetworkEdit}
+          create={SocialNetworkCreate}
+          show={SocialNetworkShow}
         />
         <Resource
           name="Description"
@@ -83,6 +87,13 @@ const App = (): React.ReactElement => {
           edit={PublicationScheduleEdit}
           create={PublicationScheduleCreate}
           show={PublicationScheduleShow}
+        />
+        <Resource
+          name="Tenant"
+          list={TenantList}
+          edit={TenantEdit}
+          create={TenantCreate}
+          show={TenantShow}
         />
       </Admin>
     </div>
