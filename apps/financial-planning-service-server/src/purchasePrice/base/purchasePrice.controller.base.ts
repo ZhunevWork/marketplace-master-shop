@@ -31,11 +31,27 @@ export class PurchasePriceControllerBase {
     @common.Body() data: PurchasePriceCreateInput
   ): Promise<PurchasePrice> {
     return await this.service.createPurchasePrice({
-      data: data,
+      data: {
+        ...data,
+
+        tenant: data.tenant
+          ? {
+              connect: data.tenant,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -53,7 +69,15 @@ export class PurchasePriceControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -70,7 +94,15 @@ export class PurchasePriceControllerBase {
       select: {
         createdAt: true,
         id: true,
+        ownerId: true,
         productId: true,
+
+        tenant: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -92,11 +124,27 @@ export class PurchasePriceControllerBase {
     try {
       return await this.service.updatePurchasePrice({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          tenant: data.tenant
+            ? {
+                connect: data.tenant,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
           productId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -122,7 +170,15 @@ export class PurchasePriceControllerBase {
         select: {
           createdAt: true,
           id: true,
+          ownerId: true,
           productId: true,
+
+          tenant: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });

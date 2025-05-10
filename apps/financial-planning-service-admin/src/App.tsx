@@ -5,10 +5,6 @@ import { theme } from "./theme/theme";
 import Login from "./Login";
 import "./App.scss";
 import Dashboard from "./pages/Dashboard";
-import { SalePriceList } from "./salePrice/SalePriceList";
-import { SalePriceCreate } from "./salePrice/SalePriceCreate";
-import { SalePriceEdit } from "./salePrice/SalePriceEdit";
-import { SalePriceShow } from "./salePrice/SalePriceShow";
 import { ProfitabilityAnalysisList } from "./profitabilityAnalysis/ProfitabilityAnalysisList";
 import { ProfitabilityAnalysisCreate } from "./profitabilityAnalysis/ProfitabilityAnalysisCreate";
 import { ProfitabilityAnalysisEdit } from "./profitabilityAnalysis/ProfitabilityAnalysisEdit";
@@ -21,6 +17,14 @@ import { MarketplaceDiscountList } from "./marketplaceDiscount/MarketplaceDiscou
 import { MarketplaceDiscountCreate } from "./marketplaceDiscount/MarketplaceDiscountCreate";
 import { MarketplaceDiscountEdit } from "./marketplaceDiscount/MarketplaceDiscountEdit";
 import { MarketplaceDiscountShow } from "./marketplaceDiscount/MarketplaceDiscountShow";
+import { SalePriceList } from "./salePrice/SalePriceList";
+import { SalePriceCreate } from "./salePrice/SalePriceCreate";
+import { SalePriceEdit } from "./salePrice/SalePriceEdit";
+import { SalePriceShow } from "./salePrice/SalePriceShow";
+import { TenantList } from "./tenant/TenantList";
+import { TenantCreate } from "./tenant/TenantCreate";
+import { TenantEdit } from "./tenant/TenantEdit";
+import { TenantShow } from "./tenant/TenantShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -34,13 +38,6 @@ const App = (): React.ReactElement => {
         dashboard={Dashboard}
         loginPage={Login}
       >
-        <Resource
-          name="SalePrice"
-          list={SalePriceList}
-          edit={SalePriceEdit}
-          create={SalePriceCreate}
-          show={SalePriceShow}
-        />
         <Resource
           name="ProfitabilityAnalysis"
           list={ProfitabilityAnalysisList}
@@ -61,6 +58,20 @@ const App = (): React.ReactElement => {
           edit={MarketplaceDiscountEdit}
           create={MarketplaceDiscountCreate}
           show={MarketplaceDiscountShow}
+        />
+        <Resource
+          name="SalePrice"
+          list={SalePriceList}
+          edit={SalePriceEdit}
+          create={SalePriceCreate}
+          show={SalePriceShow}
+        />
+        <Resource
+          name="Tenant"
+          list={TenantList}
+          edit={TenantEdit}
+          create={TenantCreate}
+          show={TenantShow}
         />
       </Admin>
     </div>

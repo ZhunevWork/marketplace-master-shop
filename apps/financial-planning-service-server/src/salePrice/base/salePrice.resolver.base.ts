@@ -17,7 +17,10 @@ import { SalePrice } from "./SalePrice";
 import { SalePriceCountArgs } from "./SalePriceCountArgs";
 import { SalePriceFindManyArgs } from "./SalePriceFindManyArgs";
 import { SalePriceFindUniqueArgs } from "./SalePriceFindUniqueArgs";
+import { CreateSalePriceArgs } from "./CreateSalePriceArgs";
+import { UpdateSalePriceArgs } from "./UpdateSalePriceArgs";
 import { DeleteSalePriceArgs } from "./DeleteSalePriceArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { SalePriceService } from "../salePrice.service";
 @graphql.Resolver(() => SalePrice)
 export class SalePriceResolverBase {
@@ -51,6 +54,51 @@ export class SalePriceResolverBase {
   }
 
   @graphql.Mutation(() => SalePrice)
+  async createSalePrice(
+    @graphql.Args() args: CreateSalePriceArgs
+  ): Promise<SalePrice> {
+    return await this.service.createSalePrice({
+      ...args,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => SalePrice)
+  async updateSalePrice(
+    @graphql.Args() args: UpdateSalePriceArgs
+  ): Promise<SalePrice | null> {
+    try {
+      return await this.service.updateSalePrice({
+        ...args,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => SalePrice)
   async deleteSalePrice(
     @graphql.Args() args: DeleteSalePriceArgs
   ): Promise<SalePrice | null> {
@@ -64,5 +112,18 @@ export class SalePriceResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  async getTenant(@graphql.Parent() parent: SalePrice): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

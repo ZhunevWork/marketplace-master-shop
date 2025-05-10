@@ -20,6 +20,7 @@ import { PurchasePriceFindUniqueArgs } from "./PurchasePriceFindUniqueArgs";
 import { CreatePurchasePriceArgs } from "./CreatePurchasePriceArgs";
 import { UpdatePurchasePriceArgs } from "./UpdatePurchasePriceArgs";
 import { DeletePurchasePriceArgs } from "./DeletePurchasePriceArgs";
+import { Tenant } from "../../tenant/base/Tenant";
 import { PurchasePriceService } from "../purchasePrice.service";
 @graphql.Resolver(() => PurchasePrice)
 export class PurchasePriceResolverBase {
@@ -58,7 +59,15 @@ export class PurchasePriceResolverBase {
   ): Promise<PurchasePrice> {
     return await this.service.createPurchasePrice({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        tenant: args.data.tenant
+          ? {
+              connect: args.data.tenant,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -69,7 +78,15 @@ export class PurchasePriceResolverBase {
     try {
       return await this.service.updatePurchasePrice({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          tenant: args.data.tenant
+            ? {
+                connect: args.data.tenant,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -95,5 +112,20 @@ export class PurchasePriceResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Tenant, {
+    nullable: true,
+    name: "tenant",
+  })
+  async getTenant(
+    @graphql.Parent() parent: PurchasePrice
+  ): Promise<Tenant | null> {
+    const result = await this.service.getTenant(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

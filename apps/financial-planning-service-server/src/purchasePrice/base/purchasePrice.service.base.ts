@@ -10,7 +10,11 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, PurchasePrice as PrismaPurchasePrice } from "@prisma/client";
+import {
+  Prisma,
+  PurchasePrice as PrismaPurchasePrice,
+  Tenant as PrismaTenant,
+} from "@prisma/client";
 
 export class PurchasePriceServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -45,5 +49,13 @@ export class PurchasePriceServiceBase {
     args: Prisma.PurchasePriceDeleteArgs
   ): Promise<PrismaPurchasePrice> {
     return this.prisma.purchasePrice.delete(args);
+  }
+
+  async getTenant(parentId: string): Promise<PrismaTenant | null> {
+    return this.prisma.purchasePrice
+      .findUnique({
+        where: { id: parentId },
+      })
+      .tenant();
   }
 }

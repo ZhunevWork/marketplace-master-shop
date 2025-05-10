@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
-import { SalePriceModule } from "./salePrice/salePrice.module";
 import { ProfitabilityAnalysisModule } from "./profitabilityAnalysis/profitabilityAnalysis.module";
 import { PurchasePriceModule } from "./purchasePrice/purchasePrice.module";
 import { MarketplaceDiscountModule } from "./marketplaceDiscount/marketplaceDiscount.module";
+import { SalePriceModule } from "./salePrice/salePrice.module";
+import { TenantModule } from "./tenant/tenant.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -15,10 +16,11 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 @Module({
   controllers: [],
   imports: [
-    SalePriceModule,
     ProfitabilityAnalysisModule,
     PurchasePriceModule,
     MarketplaceDiscountModule,
+    SalePriceModule,
+    TenantModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

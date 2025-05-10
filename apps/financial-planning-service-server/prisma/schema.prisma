@@ -7,12 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model SalePrice {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
-}
-
 model ProfitabilityAnalysis {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
@@ -22,7 +16,10 @@ model ProfitabilityAnalysis {
 model PurchasePrice {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
+  ownerId   String?
   productId String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
   updatedAt DateTime @updatedAt
 }
 
@@ -30,4 +27,21 @@ model MarketplaceDiscount {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
   updatedAt DateTime @updatedAt
+}
+
+model SalePrice {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Tenant {
+  createdAt      DateTime        @default(now())
+  id             String          @id @default(cuid())
+  purchasePrices PurchasePrice[]
+  salePrices     SalePrice[]
+  updatedAt      DateTime        @updatedAt
 }
