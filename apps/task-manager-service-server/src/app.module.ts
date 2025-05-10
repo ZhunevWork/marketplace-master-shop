@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
 import { StatusModule } from "./status/status.module";
-import { TaskModule } from "./task/task.module";
 import { UrgencyModule } from "./urgency/urgency.module";
 import { ImportanceModule } from "./importance/importance.module";
+import { TaskModule } from "./task/task.module";
+import { TenantModule } from "./tenant/tenant.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -16,9 +17,10 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   controllers: [],
   imports: [
     StatusModule,
-    TaskModule,
     UrgencyModule,
     ImportanceModule,
+    TaskModule,
+    TenantModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

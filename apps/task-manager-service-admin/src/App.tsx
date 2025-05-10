@@ -9,10 +9,6 @@ import { StatusList } from "./status/StatusList";
 import { StatusCreate } from "./status/StatusCreate";
 import { StatusEdit } from "./status/StatusEdit";
 import { StatusShow } from "./status/StatusShow";
-import { TaskList } from "./task/TaskList";
-import { TaskCreate } from "./task/TaskCreate";
-import { TaskEdit } from "./task/TaskEdit";
-import { TaskShow } from "./task/TaskShow";
 import { UrgencyList } from "./urgency/UrgencyList";
 import { UrgencyCreate } from "./urgency/UrgencyCreate";
 import { UrgencyEdit } from "./urgency/UrgencyEdit";
@@ -21,6 +17,14 @@ import { ImportanceList } from "./importance/ImportanceList";
 import { ImportanceCreate } from "./importance/ImportanceCreate";
 import { ImportanceEdit } from "./importance/ImportanceEdit";
 import { ImportanceShow } from "./importance/ImportanceShow";
+import { TaskList } from "./task/TaskList";
+import { TaskCreate } from "./task/TaskCreate";
+import { TaskEdit } from "./task/TaskEdit";
+import { TaskShow } from "./task/TaskShow";
+import { TenantList } from "./tenant/TenantList";
+import { TenantCreate } from "./tenant/TenantCreate";
+import { TenantEdit } from "./tenant/TenantEdit";
+import { TenantShow } from "./tenant/TenantShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -42,13 +46,6 @@ const App = (): React.ReactElement => {
           show={StatusShow}
         />
         <Resource
-          name="Task"
-          list={TaskList}
-          edit={TaskEdit}
-          create={TaskCreate}
-          show={TaskShow}
-        />
-        <Resource
           name="Urgency"
           list={UrgencyList}
           edit={UrgencyEdit}
@@ -61,6 +58,20 @@ const App = (): React.ReactElement => {
           edit={ImportanceEdit}
           create={ImportanceCreate}
           show={ImportanceShow}
+        />
+        <Resource
+          name="Task"
+          list={TaskList}
+          edit={TaskEdit}
+          create={TaskCreate}
+          show={TaskShow}
+        />
+        <Resource
+          name="Tenant"
+          list={TenantList}
+          edit={TenantEdit}
+          create={TenantCreate}
+          show={TenantShow}
         />
       </Admin>
     </div>
