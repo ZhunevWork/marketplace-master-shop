@@ -1,0 +1,56 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Category {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Brand {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Tenant {
+  brands     Brand[]
+  categories Category[]
+  createdAt  DateTime   @default(now())
+  id         String     @id @default(cuid())
+  products   Product[]
+  updatedAt  DateTime   @updatedAt
+}
