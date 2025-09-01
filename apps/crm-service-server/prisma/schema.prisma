@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Lead {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Deal {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  productId String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Delivery {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model Tenant {
+  createdAt DateTime @default(now())
+  deals     Deal[]
+  id        String   @id @default(cuid())
+  leads     Lead[]
+  updatedAt DateTime @updatedAt
+}
