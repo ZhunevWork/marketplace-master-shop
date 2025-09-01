@@ -1,0 +1,47 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ProfitabilityAnalysis {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model PurchasePrice {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  productId String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model MarketplaceDiscount {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model SalePrice {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  ownerId   String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Tenant {
+  createdAt      DateTime        @default(now())
+  id             String          @id @default(cuid())
+  purchasePrices PurchasePrice[]
+  salePrices     SalePrice[]
+  updatedAt      DateTime        @updatedAt
+}
